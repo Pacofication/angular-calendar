@@ -22,7 +22,7 @@ import { trackByWeekDayHeaderDate } from '../common/util';
     >
       <div
         class="cal-day-headers"
-        [class.cal-day-headers-right]="!displayTimeOnLeft"
+        [class.cal-day-headers-right]="displayTimeOnRight"
         role="row"
       >
         <div
@@ -75,7 +75,7 @@ export class CalendarWeekViewHeaderComponent {
 
   @Input() customTemplate: TemplateRef<any>;
 
-  @Input() displayTimeOnLeft: boolean = true;
+  @Input() displayTimeOnRight: boolean = false;
 
   @Output() dayHeaderClicked = new EventEmitter<{
     day: WeekDay;

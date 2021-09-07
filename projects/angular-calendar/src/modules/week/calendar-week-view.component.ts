@@ -85,7 +85,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         [days]="days"
         [locale]="locale"
         [customTemplate]="headerTemplate"
-        [displayTimeOnLeft]="displayTimeOnLeft"
+        [displayTimeOnRight]="displayTimeOnRight"
         (dayHeaderClicked)="dayHeaderClicked.emit($event)"
         (eventDropped)="
           eventDropped({ dropData: $event }, $event.newStart, true)
@@ -211,7 +211,9 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         <div
           class="cal-time-label-column"
           *ngIf="
-            view.hourColumns.length > 0 && daysInWeek !== 1 && displayTimeOnLeft
+            view.hourColumns.length > 0 &&
+            daysInWeek !== 1 &&
+            !displayTimeOnRight
           "
         >
           <div
@@ -243,7 +245,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         >
           <div
             class="cal-day-column"
-            [class.cal-day-column-right]="!displayTimeOnLeft"
+            [class.cal-day-column-right]="displayTimeOnRight"
             *ngFor="let column of view.hourColumns; trackBy: trackByHourColumn"
           >
             <mwl-calendar-week-view-current-time-marker
@@ -413,7 +415,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
           *ngIf="
             view.hourColumns.length > 0 &&
             daysInWeek !== 1 &&
-            !displayTimeOnLeft
+            displayTimeOnRight
           "
         >
           <div
@@ -598,7 +600,7 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy {
    */
   @Input() currentTimeMarkerTemplate: TemplateRef<any>;
 
-  @Input() displayTimeOnLeft: boolean = true;
+  @Input() displayTimeOnRight: boolean = false;
 
   /**
    * Called when a header week day is clicked. Adding a `cssClass` property on `$event.day` will add that class to the header element
