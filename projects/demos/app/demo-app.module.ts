@@ -459,6 +459,16 @@ import { ClipboardModule } from 'ngx-clipboard';
           },
         },
         {
+          path: 'week-view-time-on-right',
+          loadChildren: () =>
+            import('./demo-modules/week-view-time-on-right/module').then(
+              (m) => m.DemoModule
+            ),
+          data: {
+            label: 'Week View Time on right',
+          },
+        },
+        {
           path: '**',
           redirectTo: 'kitchen-sink',
         },

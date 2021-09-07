@@ -85,6 +85,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         [days]="days"
         [locale]="locale"
         [customTemplate]="headerTemplate"
+        [displayTimeOnLeft]="displayTimeOnLeft"
         (dayHeaderClicked)="dayHeaderClicked.emit($event)"
         (eventDropped)="
           eventDropped({ dropData: $event }, $event.newStart, true)
@@ -209,7 +210,9 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
       >
         <div
           class="cal-time-label-column"
-          *ngIf="view.hourColumns.length > 0 && daysInWeek !== 1"
+          *ngIf="
+            view.hourColumns.length > 0 && daysInWeek !== 1 && displayTimeOnLeft
+          "
         >
           <div
             *ngFor="
@@ -240,6 +243,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         >
           <div
             class="cal-day-column"
+            [class.cal-day-column-right]="!displayTimeOnLeft"
             *ngFor="let column of view.hourColumns; trackBy: trackByHourColumn"
           >
             <mwl-calendar-week-view-current-time-marker
@@ -403,6 +407,37 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
             </div>
           </div>
         </div>
+
+        <div
+          class="cal-time-label-column"
+          *ngIf="
+            view.hourColumns.length > 0 &&
+            daysInWeek !== 1 &&
+            !displayTimeOnLeft
+          "
+        >
+          <div
+            *ngFor="
+              let hour of view.hourColumns[0].hours;
+              trackBy: trackByHour;
+              let odd = odd
+            "
+            class="cal-hour"
+            [class.cal-hour-odd]="odd"
+          >
+            <mwl-calendar-week-view-hour-segment
+              *ngFor="let segment of hour.segments; trackBy: trackByHourSegment"
+              [style.height.px]="hourSegmentHeight"
+              [segment]="segment"
+              [segmentHeight]="hourSegmentHeight"
+              [locale]="locale"
+              [customTemplate]="hourSegmentTemplate"
+              [isTimeLabel]="true"
+              [daysInWeek]="daysInWeek"
+            >
+            </mwl-calendar-week-view-hour-segment>
+          </div>
+        </div>
       </div>
     </div>
   `,
@@ -562,6 +597,8 @@ export class CalendarWeekViewComponent implements OnChanges, OnInit, OnDestroy {
    * A custom template to use for the current time marker
    */
   @Input() currentTimeMarkerTemplate: TemplateRef<any>;
+
+  @Input() displayTimeOnLeft: boolean = true;
 
   /**
    * Called when a header week day is clicked. Adding a `cssClass` property on `$event.day` will add that class to the header element

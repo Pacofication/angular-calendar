@@ -20,7 +20,11 @@ import { trackByWeekDayHeaderDate } from '../common/util';
       let-trackByWeekDayHeaderDate="trackByWeekDayHeaderDate"
       let-dragEnter="dragEnter"
     >
-      <div class="cal-day-headers" role="row">
+      <div
+        class="cal-day-headers"
+        [class.cal-day-headers-right]="!displayTimeOnLeft"
+        role="row"
+      >
         <div
           class="cal-header"
           *ngFor="let day of days; trackBy: trackByWeekDayHeaderDate"
@@ -70,6 +74,8 @@ export class CalendarWeekViewHeaderComponent {
   @Input() locale: string;
 
   @Input() customTemplate: TemplateRef<any>;
+
+  @Input() displayTimeOnLeft: boolean = true;
 
   @Output() dayHeaderClicked = new EventEmitter<{
     day: WeekDay;
