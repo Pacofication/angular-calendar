@@ -465,7 +465,7 @@ import { ClipboardModule } from 'ngx-clipboard';
               (m) => m.DemoModule
             ),
           data: {
-            label: 'Week View Time on right',
+            label: 'Week view time on right',
           },
         },
         {

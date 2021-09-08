@@ -420,7 +420,7 @@ export interface CalendarWeekViewBeforeRenderEvent extends WeekView {
         >
           <div
             *ngFor="
-              let hour of view.hourColumns[0].hours;
+              let hour of view.hourColumns[view.hourColumns.length - 1].hours;
               trackBy: trackByHour;
               let odd = odd
             "
